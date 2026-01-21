@@ -1,4 +1,67 @@
 // ==========================================
+// SEQUENTIAL TYPING ANIMATION
+// ==========================================
+function initTypingAnimation() {
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+    const line3 = document.getElementById('line3');
+    const nameSpan = document.querySelector('.typing-text');
+    const roleSpan = document.querySelector('.typing-role');
+    
+    if (!line1 || !line2 || !line3) return;
+
+    // Text to type
+    const nameText = 'Annita Cheruto';
+    const roleText = 'Junior Full Stack Web Developer';
+
+    // Typing function
+    function typeText(element, text, speed, callback) {
+        let index = 0;
+        element.textContent = '';
+        
+        function type() {
+            if (index < text.length) {
+                element.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            } else {
+                // Remove cursor from previous element
+                element.style.borderRight = 'none';
+                if (callback) setTimeout(callback, 300);
+            }
+        }
+        type();
+    }
+
+    // Sequence of animations
+    function startSequence() {
+        // Step 1: Show "Hello, There"
+        setTimeout(() => {
+            line1.style.opacity = '1';
+            
+            // Step 2: Show and type name
+            setTimeout(() => {
+                line2.style.opacity = '1';
+                typeText(nameSpan, nameText, 100, () => {
+                    
+                    // Step 3: Show and type role
+                    line3.style.opacity = '1';
+                    typeText(roleSpan, roleText, 80, () => {
+                        // Keep cursor blinking on last line
+                        roleSpan.style.animation = 'blink-caret 0.75s step-end infinite';
+                    });
+                });
+            }, 800);
+        }, 500);
+    }
+
+    startSequence();
+}
+
+// Initialize typing animation when page loads
+window.addEventListener('load', initTypingAnimation);
+
+// ==========================================
 // EMAILJS CONFIGURATION
 // ==========================================
 // REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS
